@@ -4,7 +4,7 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass revtex4-1
+\textclass revtex4
 \begin_preamble
 \usepackage{amsmath}
  
@@ -57,7 +57,7 @@
 \use_package stmaryrd 0
 \use_package undertilde 0
 \cite_engine natbib
-\cite_engine_type default
+\cite_engine_type authoryear
 \biblio_style plain
 \use_bibtopic false
 \use_indices false
@@ -94,12 +94,12 @@
 Structured compartment models of infection in Python 
 \end_layout
 
-\begin_layout Standard
-
-\emph on
+\begin_layout Section
 Epidemiological models
-\emph default
-: We consider a population aggregated by age into 
+\end_layout
+
+\begin_layout Standard
+We consider a population aggregated by age into 
 \begin_inset Formula $M$
 \end_inset
 
@@ -218,7 +218,7 @@ where
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 SIR
 \end_layout
 
@@ -296,7 +296,43 @@ The age structure of the population is specified the proportions
  is the fraction for reduction in contacts of the symptomatic infectives
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
+SIRS
+\end_layout
+
+\begin_layout Standard
+With these assumptions the progress of the epidemic is governed by the age-struc
+tured SIR model 
+\begin_inset Formula 
+\begin{align*}
+\begin{aligned}\dot{S}_{i} & =-\lambda_{i}(t)S_{i}+\sigma_{i}+\epsilon(\gamma_{I^{a}}I_{i}^{a}+\gamma_{I^{s}}I_{i}^{s})\\
+\dot{I}_{i}^{a} & =\alpha\lambda_{i}(t)S_{i}-\gamma_{I^{a}}I_{i}^{a}\\
+\dot{I}_{i}^{s} & =\bar{\alpha}\lambda_{i}(t)S_{i}-\gamma_{I^{a}}I_{i}^{s}\\
+\dot{N}_{i} & =\sigma_{i}+l_{i}
+\end{aligned}
+\end{align*}
+
+\end_inset
+
+Here 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is fraction of recovered who is susceptible.
+ 
+\begin_inset Formula $\sigma_{i}$
+\end_inset
+
+ denotes of the arrival of new susceptibles, while 
+\begin_inset Formula $l_{i}$
+\end_inset
+
+ are new asymptomatic infectives.
+ This means that the number of people is dynamical.
+ 
+\end_layout
+
+\begin_layout Subsection
 SEIR
 \end_layout
 
@@ -327,7 +363,7 @@ Assuming an exponentially distributed incubation time distribution,
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 SEAIR
 \end_layout
 
@@ -341,15 +377,7 @@ everyone
  who gets infected, undergoes a latency period where they are both asymptomatic
  and infectious.
  This class is potentially quite important, as there is some evidence that
- people are infectious before they start showing symptoms 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "tindale2020transmission"
-literal "true"
-
-\end_inset
-
-.
+ people are infectious before they start showing symptoms
 \end_layout
 
 \begin_layout Standard
@@ -404,7 +432,7 @@ Since it's difficult to find data on the ratio of
  instead.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 SEAIRQ
 \end_layout
 
@@ -477,7 +505,7 @@ Note that this model does not keep track of what happens to people once
  has been completed.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 SIkR
 \end_layout
 
@@ -487,6 +515,10 @@ We now use method of stages to write an age-structured
 \end_inset
 
 staged SIkR model 
+\begin_inset Formula $\dot{I}_{k}(t)=\gamma_{I}N_{I}(I_{k-1}-I_{k})$
+\end_inset
+
+
 \begin_inset Formula 
 \begin{align}
 \dot{S_{i}} & =-\lambda_{i}(t)S_{i},\nonumber \\
@@ -500,6 +532,39 @@ staged SIkR model
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+SEkIkR
+\end_layout
+
+\begin_layout Standard
+The above method of stages for SIR can be extended to SEIR model to obtain
+ an age-structured 
+\begin_inset Formula $k-$
+\end_inset
+
+staged SEkIkR model to obtain
+\begin_inset Formula 
+\begin{align}
+\dot{S_{i}} & =-\lambda_{i}(t)S_{i},\nonumber \\
+\dot{E}_{i}^{1} & =\lambda_{i}(t)S_{i}-k\gamma_{E}E_{i}^{1}\\
+\dot{E}_{i}^{2} & =k\gamma_{E}E_{i}^{1}-k\gamma_{E}E_{i}^{2}\\
+\vdots\\
+\dot{E}_{i}^{k} & =k\gamma_{E}E_{i}^{k-1}-k\gamma_{E}E_{i}^{k}\\
+\dot{I}_{i}^{1} & =\lambda_{i}(t)S_{i}-k\gamma_{I}I_{i}^{1},\label{eq:ageSIR-1-1}\\
+\dot{I}_{i}^{2} & =k\gamma_{I}I_{i}^{1}-k\gamma_{I}I_{i}^{2},\\
+\vdots\\
+\dot{I}_{i}^{k} & =k\gamma_{I}I_{i}^{n-1}-k\gamma_{I}I_{i}^{k},\\
+\dot{R}_{i} & =k\gamma_{I}I_{i}^{k}.\nonumber 
+\end{align}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintCited"
