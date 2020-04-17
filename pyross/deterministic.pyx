@@ -64,7 +64,7 @@ cdef class SIR:
         return
 
 
-    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -76,7 +76,7 @@ cdef class SIR:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, Ia0, Is0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -119,8 +119,8 @@ cdef class SIRS:
         self.gIs   = parameters.get('gIa')                      # recovery rate of Is
         self.fsa   = parameters.get('fsa')                      # the self-isolation parameter of symptomatics
 
-        self.ep    = parameters.get('ep')                       # fraction of recovered who is susceptible 
-        self.sa    = parameters.get('sa')                       # daily arrival of new susceptibles 
+        self.ep    = parameters.get('ep')                       # fraction of recovered who is susceptible
+        self.sa    = parameters.get('sa')                       # daily arrival of new susceptibles
         self.iaa   = parameters.get('iaa')                      # daily arrival of new asymptomatics
 
 
@@ -161,7 +161,7 @@ cdef class SIRS:
         return
 
 
-    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -173,7 +173,7 @@ cdef class SIRS:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, Ia0, Is0, self.Ni)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -191,7 +191,7 @@ cdef class SIRS:
             savemat(filename, {'X':u, 't':time_points, 'N':self.N, 'M':self.M,'alpha':self.alpha, 'beta':self.beta,'gIa':self.gIa, 'gIs':self.gIs })
         return data
 
-    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -203,7 +203,7 @@ cdef class SIRS:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, Ia0, Is0, self.Ni)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -282,7 +282,7 @@ cdef class SEIR:
         return
 
 
-    def simulate(self, S0, E0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, E0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -294,7 +294,7 @@ cdef class SEIR:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, E0, Ia0, Is0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -382,7 +382,7 @@ cdef class SEAIR:
         return
 
 
-    def simulate(self, S0, E0, A0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, E0, A0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -394,7 +394,7 @@ cdef class SEAIR:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, E0, A0, Ia0, Is0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -491,7 +491,7 @@ cdef class SEAIRQ:
         return
 
 
-    def simulate(self, S0, E0, A0, Ia0, Is0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, E0, A0, Ia0, Is0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -503,7 +503,7 @@ cdef class SEAIRQ:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, E0, A0, Ia0, Is0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -581,7 +581,7 @@ cdef class SIkR:
         return
 
 
-    def simulate(self, S0, I0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, I0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -593,7 +593,7 @@ cdef class SIkR:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, I0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
@@ -693,7 +693,7 @@ cdef class SEkIkR:
         return
 
 
-    def simulate(self, S0, E0, I0, contactMatrix, Tf, Nf, integrator='odeint', filename='None', seedRate=None):
+    def simulate(self, S0, E0, I0, contactMatrix, Tf, Nf, Ti=0, integrator='odeint', filename='None', seedRate=None):
         from scipy.integrate import odeint
 
         def rhs0(rp, t):
@@ -705,7 +705,7 @@ cdef class SEkIkR:
             self.CM = contactMatrix(t)
             return self.drpdt
 
-        time_points=np.linspace(0, Tf, Nf);  ## intervals at which output is returned by integrator.
+        time_points=np.linspace(Ti, Tf, Nf);  ## intervals at which output is returned by integrator.
         u = odeint(rhs0, np.concatenate((S0, E0, I0)), time_points, mxstep=5000000)
         #elif integrator=='odespy-vode':
         #    import odespy
