@@ -39,7 +39,7 @@ cdef class SIR:
                 self.set_params(parameters)
                 model = detSIR(parameters, self.M, self.fi)
                 minus_logp = self.obtain_log_p_for_traj(x, Tf, Nf, steps, model, contactMatrix)
-            return minus_logp
+                return minus_logp
         res = minimize(to_minimize, guess, method='Nelder-Mead')
         return res.x, res.nit
 
@@ -59,7 +59,7 @@ cdef class SIR:
 
     cpdef double obtain_log_p_for_traj(self, double [:, :, :] x, double Tf, int Nf, int steps, model, contactMatrix):
         cdef:
-            double log_p,
+            double log_p = 0
             double [:] time_points = np.linspace(0, Tf, Nf)
             double [:, :] xi, xf, dev, mean
             double [:, :, :, :] cov
@@ -74,7 +74,7 @@ cdef class SIR:
             log_p += self.log_cond_p(dev, cov)
         return -log_p
 
-    cdef double log_cond_p(self, double [:, :] x, double [:, :, :, :] cov):
+    cpdef double log_cond_p(self, double [:, :] x, double [:, :, :, :] cov):
         cdef:
             int dim = 3*self.M
             double [:, :] cov_mat, invcov
